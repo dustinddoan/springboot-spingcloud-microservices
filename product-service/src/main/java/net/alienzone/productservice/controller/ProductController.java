@@ -1,6 +1,7 @@
 package net.alienzone.productservice.controller;
 
 import lombok.AllArgsConstructor;
+import net.alienzone.productservice.entity.Product;
 import net.alienzone.productservice.model.ProductRequest;
 import net.alienzone.productservice.model.ProductResponse;
 import net.alienzone.productservice.service.ProductService;
@@ -25,5 +26,11 @@ public class ProductController {
     public ResponseEntity<ProductResponse> getProductById(@PathVariable long productId) {
         ProductResponse productResponse = productService.getProductById(productId);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    @PutMapping("/reduceQuantity/{productId}")
+    public ResponseEntity<Void> reduceQuantity(@PathVariable("productId") long productId, @RequestParam long quantity) {
+        productService.reduceQuantity(productId, quantity);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
