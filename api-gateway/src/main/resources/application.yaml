@@ -53,7 +53,8 @@ okta:
   oauth2:
     issuer: https://dev-86709474.okta.com/oauth2/default
     audience: api://default
-    client-id: 0oab3xg3g3AeaQezA5d7
-    client-secret: QLsZ2QWRpzLr3ka0ec633JzdTozzu1vEEyZMaDIW_V17PL40ooQi2AJOBTKiH1xu
+    client-id: 0oab5ti3duIPmn2135d7
+    client-secret: HYB3EOyYwyxqKb0caflBupXywsgUoZp_KTmFkuc98O55KFcSod7Wrfxaf2_K0CJT
     scopes: openid, profile, email, offline_access, internal
     redirect-uri: /login/oauth2/code/okta
+    groups-claim: Admin, Customer

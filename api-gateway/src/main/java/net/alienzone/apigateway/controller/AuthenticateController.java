@@ -1,8 +1,10 @@
 package net.alienzone.apigateway.controller;
 
+import lombok.extern.log4j.Log4j2;
 import net.alienzone.apigateway.model.AuthenticationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/authenticate")
+@Log4j2
 public class AuthenticateController {
 
     @GetMapping("/login")
@@ -24,14 +27,17 @@ public class AuthenticateController {
             Model model,
             @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client) {
 
+//        log.info("getClientRegistration: " + client.getClientRegistration());
+
         AuthenticationResponse authenticationResponse
                 = AuthenticationResponse.builder()
                 .userId(oidcUser.getEmail())
                 .accessToken(client.getAccessToken().getTokenValue())
-                .refreshToken(client.getAccessToken().getTokenValue())
+                .refreshToken(client.getRefreshToken().getTokenValue())
                 .expiresAt(client.getAccessToken().getExpiresAt().getEpochSecond())
-                .authorityList(oidcUser.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toList()))
+                .authorityList(oidcUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .build();
+
 
         return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
     }
